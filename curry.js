@@ -4,30 +4,30 @@
  * console.log(sum(1,2,3)(4)()) => 输出 10
  */
 const _add = function() {
-  return [].slice.call(arguments).reduce((acc, cur) => acc + cur,0);
+  return [...arguments].reduce((acc, cur) => acc + cur,0);
 };
 
 
 const curry = function(fn, params) {
-  let newArgs = params || [];
-  const that = this;
+  let newArgs = params ||[]
   let ret = function() {
-    const _args = [].slice.call(arguments);
-    console.log('args====>',_args,newArgs)
-    newArgs = _args.concat(newArgs);
+    console.log('params===>',params)
     if (arguments.length) {
-      return curry.call(that, fn, newArgs);
+      return curry.call(null, fn,  [...arguments].concat(newArgs));
     }else{
-      return fn.apply(this, newArgs);
+      let temp = [...newArgs]
+      newArgs =[]
+      return fn.apply(null, temp);
     }
   }
   ret.run =function(){
-    return fn.apply(this,newArgs)
+    console.log('run new args===>',newArgs)
+    return fn.apply(null,newArgs)
   }
   return ret
 };
 
 const sum = curry(_add);
-// console.log(sum(1,2,3)(4, 5, 6)());
+console.log(sum(10,2,3)(4, 5, 6)());
 console.log(sum(1,2,3)(4)(5).run());
 
