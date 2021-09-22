@@ -31,3 +31,44 @@ const composeFn = compose(
 );
 
 console.log(composeFn("Jun", "Xu"));
+
+
+/**
+ * koa
+ * @param {} ctx 
+ * @param {*} middlewares 
+ * @returns 
+ */
+function composeKOA(ctx, middlewares) {
+  // {1} 先判断middlewares是否方法数组
+  if (!Array.isArray(middlewares)) throw new TypeError('Middlewares stack must be an array!')
+  
+  // {2}
+  for (const fn of middlewares) {
+    if (typeof fn !== 'function') throw new TypeError('Middleware must be composed of functions!')
+  }
+  // 返回一个promise的递归集合
+  return function() {
+    const len = middlewares.length; // {3} 获取数组长度
+    // 第一个promise 当next返回i-1的回调 下面的类推
+    const dispatch = function(i) { // {4} 这里是我们实现的关键
+      if (len === i) { // {5} 中间件执行完毕
+        return Promise.resolve(); // 结束递归
+      } else {
+        const fn = middlewares[i]; // {6} 当前中间件方法 ，放到promise中，回调剩余方法  由于await next()，剩余的方法是dispatch而不是dispatch(i) 由于需要传残 所以用bind
+        
+        try {
+          // {7} 这里一定要 bind 下，不要立即执行
+          return Promise.resolve(fn(ctx, dispatch.bind(null, (i + 1))));
+        } catch (err) {
+          // {8} 返回错误
+          return Promise.reject(err);
+        }
+      }
+    }
+
+    return dispatch(0);
+  }
+}
+
+

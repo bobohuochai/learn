@@ -74,7 +74,7 @@ function rewards(total,currencies){
            }
         }
         // 求最小值
-        const sortDis = currentDis.filter(curDis=>curDis!==empty).sort()
+        const sortDis = currentDis.filter(curDis=>curDis!==empty).sort((a,b)=>a-b)
         if(sortDis.length){
           currentDis.push(sortDis[0])
         }else{

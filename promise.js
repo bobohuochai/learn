@@ -115,3 +115,8 @@ new promise((resolve,reject)=>{
 }).then((value)=>{
   console.log('my promise',value)
 })
+
+/**
+ * 手写promise
+ */
+

@@ -31,4 +31,3 @@ const sum = curry(_add);
 // console.log(sum(1,2,3)(4, 5, 6)());
 console.log(sum(1,2,3)(4)(5).run());
 
-console.log([3, 15, 8, 29, 102, 22].sort((a,b)=>a-b))

@@ -4,14 +4,14 @@
 const throttle = (fn, time) => {
   let timer = null;
   let canRun = true;
-  return function() {
+  return function(...args) {
     if (!canRun) {
       return;
     }
     if (canRun) {
       canRun = false;
       timer = setTimeout(() => {
-        fn.apply(this, arguments);
+        fn.apply(this, args);
         canRun = true;
         if (timer) {
           clearTimeout(timer);
@@ -25,12 +25,12 @@ const throttle = (fn, time) => {
 // 注意定时器每次函数执行时都会被创建，所以一直会等到事件结束过time时间才会执行一次
 const debounce = (fn, time) => {
   let timer = null;
-  return function() {
+  return function(...args) {
     if (timer) {
       clearTimeout(timer);
     }
     timer = setTimeout(() => {
-      fn.apply(this, arguments);
+      fn.apply(this, args);
     }, time);
   };
 };
@@ -47,8 +47,8 @@ var main = () => {
   for (var i = 0; i < 1000; i++) {
     let time = i;
     setTimeout(() => {
-      thlog(time);
-      debouncelog(time);
+      //thlog(time);
+     debouncelog(time);
     }, time);
   }
 };
