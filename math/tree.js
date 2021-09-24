@@ -1,42 +1,96 @@
+
+
 /**
- * 构建前缀树
- * node 属性 label 单词字母
- * children 使用哈希映射存放子结点。哈希便于确认是否已经添加过某个字母对应的结点。
- * prefix  //从树的根到当前结点这条通路上，全部字母所组成的前缀。例如通路b->o->y，对于字母o结点而言，前缀是b；对于字母y结点而言，前缀是bo
+ * Initialize your data structure here.
  */
-class TreeNode {
-    constructor(){
-        this.label =''
-        this.children = new Map()
-        this.prefix =''
+ var Trie = function() {
+  this.next = new Map()
+  this.end = 0
+  this.path =0 
+};
+
+/**
+* Inserts a word into the trie. 
+* @param {string} word
+* @return {void}
+*/
+Trie.prototype.insert = function(word) {
+  if(!word || word==='') return
+  let node = this
+  for(const char of word){
+    if(!node.next.get(char)){
+       node.next.set(char,new Trie())
     }
-}
-
-function createTree(parent,words){
-  for(let word of words) {
-    const firstChar = word[0]
-    let found =null
-    if(parent.children.get(firstChar)) {
-        found = parent.children.get(firstChar)
-    }else{
-      for(let char of word){
-        const currentNode = createNode(parent,char)
-        parent = currentNode
-        console.log('parent===>',parent)
-      }
-    } 
+    node= node.next.get(char)
+    node.path++
   }
+  node.end++
+};
+
+Trie.prototype.delete = function(word){
+if(!word || word === '') return
+ let node = this
+ for(const char of word){
+   if(node.next.get(char)){
+       if(--node.next.path === 0){
+          node.next.delete(char)
+          return
+       }else{
+          node = node.next.get(char)
+       }
+   }
+ }
+ node.end--
 }
 
-function createNode(parent,char){
-    const node = new TreeNode()
-    node.label = char
-    node.prefix = parent.prefix + char
-    parent.children.set(char,node)
-    return node
-}
+/**
+* Returns if the word is in the trie. 
+* @param {string} word
+* @return {boolean}
+*/
+Trie.prototype.search = function(word) {
+  if(!word || word==='') return false
+  let isFound = true
+  let node = this
+  for(const char of word){
+    if(!node.next.get(char)){
+       isFound = false 
+       break
+    }else{
+      node = node.next.get(char)
+    }
+  }
+  if(!isFound || node.end ===0){
+    return false
+  }else{
+    return true
+  }
+};
 
-const root = new TreeNode()
-createTree(root,['geek','geometry'])
-console.log(JSON.stringify(root))
+/**
+* Returns if there is any word in the trie that starts with the given prefix. 
+* @param {string} prefix
+* @return {boolean}
+*/
+Trie.prototype.startsWith = function(prefix) {
+  if(!prefix || prefix ==='') return false
+  let isFound = true
+  let node = this
+  for(const char of prefix){
+    if(!node.next.get(char)){
+       isFound = false 
+       break
+    }else{
+      node = node.next.get(char)
+    }
+  }
+  return isFound
+};
 
+/**
+* Your Trie object will be instantiated and called as such:
+* var obj = new Trie()
+* obj.insert(word)
+* var param_2 = obj.search(word)
+* var param_3 = obj.startsWith(prefix)
+*/

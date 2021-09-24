@@ -90,7 +90,7 @@ console.log(rewards(100,[2,3,7]))
 
 
 function climbStairs(n) {
-  const result = new Array(n)
+  const result = []
   result[0] =0
   result[1] =1
   result[2]= 2
