@@ -71,4 +71,25 @@ function composeKOA(ctx, middlewares) {
   }
 }
 
+const middlewares = []
+let mw1 = async function (ctx, next) {
+    console.log("next前，第一个中间件")
+    await next()
+    console.log("next后，第一个中间件")
+}
+let mw2 = async function (ctx, next) {
+    console.log("next前，第二个中间件")
+    await next()
+    console.log("next后，第二个中间件")
+}
+let mw3 = async function (ctx, next) {
+    console.log("第三个中间件，没有next了")
+}
 
+middlewares.push(mw1)
+middlewares.push(mw2)
+middlewares.push(mw3)
+
+
+const fn = composeKOA(null,middlewares)
+fn()
