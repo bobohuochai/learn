@@ -15,6 +15,9 @@
  *     }
  * }
  */
+/***
+ * 修改了入参
+ */
 function findThirdFromLast(node) {
     if (!node || !node.next || !node.next.next) return null
     // 将单向链表反转
@@ -28,6 +31,20 @@ function findThirdFromLast(node) {
     // 返回第三项
     console.log('prev===>', JSON.stringify(prev))
     return prev.next.next.val
+}
+
+function findThirdFromLast2(node){
+    let prev=node,cur = node,i =0
+    while(cur){
+        if(i===2&&cur.next){
+            prev = prev.next
+        }
+        cur = cur.next
+        if(i<2){
+         i++
+        }
+    }
+    return prev.val
 }
 
 
@@ -45,11 +62,12 @@ var node = {
     }
 }
 
-console.log(findThirdFromLast(node))
-console.log(findThirdFromLast({
-    val: 0,
-    next: {
-        val: 1,
-        next: null
-    }
-}))
+// console.log(findThirdFromLast(node))
+// console.log(findThirdFromLast({
+//     val: 0,
+//     next: {
+//         val: 1,
+//         next: null
+//     }
+// }))
+console.log(findThirdFromLast2(node))
