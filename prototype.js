@@ -2,15 +2,15 @@ function Super(name) {
     this.name = name
 }
 Super.prototype.add = function() {
-   Super.age = Super.age + 1
+   this.age = this.age + 1
 }
-Super.age =1
+Super.prototype.age =1
 
 
 const a = new Super('A')
 const b = new Super('B')
 a.add()
-
+console.log(b.age,a.age)
 
 
 
