@@ -12,7 +12,7 @@ Function.prototype.newCall = function(ref){
     if(typeof this !== 'function'){
         throw 'newCall must be a function'
     }
-    const self = Object.create(ref)
+    const self = {...ref}
     console.log('self====>',self.name)
     const args = [...arguments].slice(1)
     self.fn = this

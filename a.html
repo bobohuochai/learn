@@ -19,8 +19,25 @@
       transition: border-right-width 2s;
       border-right-width: 10px;
     }
+    div.box {
+      display: flex;
+      width:100%;
+      height:100%;
+      justify-content: flex-start;
+    }
+    div.left{
+       width: 200px;
+       background: red;
+    }
+    div.right {
+      flex-grow: 1;
+      background: green;
+    }
   </style>
   <body>
-    <div class="a"></div>
+    <div class="box">
+      <div class="left"></div>
+      <div class="right"></div>
+    </div>
   </body>
 </html>
