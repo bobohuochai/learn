@@ -81,6 +81,7 @@ function promise(executor) {
   this.resolveCallbacks = []
   this.rejectCallbacks = []
   function resolve(value) {
+    console.log('resolveCallbacks',this.resolveCallbacks)
     if (this.status !== 'pending') return
     this.status = 'resolve'
     this.value = value
@@ -90,7 +91,7 @@ function promise(executor) {
     if (this.status !== 'pending') return
     this.status = 'reject'
     this.reason = reason
-    this.resolveCallbacks.map(fn => fn(this.reason))
+    this.rejectCallbacks.map(fn => fn(this.reason))
   }
   executor(resolve.bind(this), reject.bind(this))
 }
@@ -144,6 +145,7 @@ new promise((resolve, reject) => {
   setTimeout(() => {
     resolve(1);
   }, 500);
+  console.log('promise')
 }).then((value) => {
   console.log('my promise', value)
   return value

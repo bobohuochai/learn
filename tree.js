@@ -56,11 +56,14 @@ const root = {
 
 const arr = dfsTree(root).split(",");
 arr.pop();
-console.log(arr);
 
 const result = arr.reduce((acc, cur) => {
   console.log(acc, cur);
   return Number(acc) + Number(cur);
 }, 0);
 
-console.log(result);
+
+
+
+
+
